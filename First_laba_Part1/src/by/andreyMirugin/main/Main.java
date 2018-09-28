@@ -67,7 +67,9 @@ public class Main {
 
 
             sumTimePerN=0;
-            MergeSort(mass);//первая сортировка для ускорения
+            for(int j=0;j<50;j++){
+                MergeSort(mass);
+            }
             for(int i=0;i<100;i++){ //Прогоняю алгоритм 100 раз для получения более точного значения времени
                 long startTime = System.nanoTime();
                 for(int j=0;j<50;j++){
@@ -78,6 +80,8 @@ public class Main {
                 sumTimePerN+=totalTime;
             }
             avMergeTime = sumTimePerN/5000;
+            System.out.println("Время сортировки слиянием: "+avMergeTime);
+            fw.write("Время сортировки слиянием: "+ avMergeTime +";"+"\n");
             for(int n=7;n<=200;n++){
                 sumTimePerN=0;
                 for(int i=0;i<100;i++){ //Прогоняю алгоритм 100 раз для получения более точного значения времени
@@ -90,13 +94,12 @@ public class Main {
                     sumTimePerN+=totalTime;
                 }
                 long avTimePerN = sumTimePerN/5000;//Получение среднего времени за сто прогонов алгоритма для отдельного N
-                fw.write("N: "+ n+"; Время: "+ avTimePerN +";"+"\n");
-                System.out.println("N: "+ n+"; Время: "+ avTimePerN +";");
+                fw.write("\n"+"N: "+ n+"; Время: "+ avTimePerN +";");
+                System.out.print("\n"+"N: "+ n+"; Время: "+ avTimePerN +";");
 
                 if(avTimePerN<avMergeTime){
-                    fw.write("Лучшее время: " + Long.toString(avTimePerN) + " для N = " + n + " Время сортировки слиянием: "+ Long.toString(avMergeTime));
-                    System.out.println("Лучшее время: " + Long.toString(avTimePerN) + " для N = " + n);
-                    break;
+                    fw.write("Лучше, чем слиянием (" + Long.toString(avMergeTime)+ ")");
+                    System.out.println("Лучше, чем слиянием (" + Long.toString(avMergeTime)+ ")");
                 }
 //                if(n==7){
 //                    bestN[0]=n;
