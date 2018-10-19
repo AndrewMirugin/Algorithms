@@ -7,7 +7,6 @@ public class HashMapWithChain {
         mass=new Chain[length];
         this.A=A;
     }
-
     public void insert(double elem){
 
         int index = hashFunc(elem);
@@ -24,7 +23,6 @@ public class HashMapWithChain {
             insert(mas);
         }
     }
-
     public Node get(double value){
         int index = hashFunc(value);
         if(mass[index]!=null){
@@ -34,7 +32,6 @@ public class HashMapWithChain {
             return null;
         }
     }
-
     public int getMaxChainLength(){
         int maxLength=0;
         for(int i=0;i<mass.length;i++){
@@ -46,9 +43,6 @@ public class HashMapWithChain {
         }
         return maxLength;
     }
-
-
-
     private int hashFunc(double elem){
         return (int)(((elem%571*A)-(int)(elem%571*A))*mass.length);
     }
