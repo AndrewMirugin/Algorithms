@@ -176,11 +176,9 @@ public class Graph {
                         }
                         else{
                             if(secondShare.indexOf(temp)!=-1&&secondShare.indexOf(el)!=-1){
-                                System.out.println("second"+secondShare.indexOf(el));
                                 isBichromatic = false;
                             }
                             else if(firstShare.indexOf(temp)!=-1&&firstShare.indexOf(el)!=-1){
-                                System.out.println("first"+firstShare.indexOf(el));
                                 isBichromatic = false;
                             }
                         }
