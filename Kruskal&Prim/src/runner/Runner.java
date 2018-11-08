@@ -20,8 +20,9 @@ public class Runner {
             System.out.println("4) Удалить ребро");
             System.out.println("5) Получить остов (Краскал)");
             System.out.println("6) Получить остов (Прим)");
-            System.out.println("7) Нарисовать граф");
-            System.out.println("8) Выход");
+            System.out.println("7) Объединение результатов алгоритмов Краскала и Прима");
+            System.out.println("8) Нарисовать граф");
+            System.out.println("9) Выход");
             int choice = scan.nextInt();
             switch(choice){
                 case 1:{
@@ -62,19 +63,23 @@ public class Runner {
                     break;
                 }
                 case 5:{
-                    graph.kruskal();
+                    graph.kruskal(null,true);
+                    break;
+                }
+
+                case 6:{
+                    graph.prim(null,true);
                     break;
                 }
                 case 7:{
+                    graph.uniteOfKruskalAndPrim();
+                    break;
+                }
+                case 8:{
                     graph.render();
                     break;
                 }
-                case 6:{
-                    graph.prim();
-                    break;
-
-                }
-                case 8:{
+                case 9:{
                     return;
                 }
                 default:{

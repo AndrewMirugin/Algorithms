@@ -1,6 +1,9 @@
 package graph;
 
+import com.sun.istack.internal.Nullable;
+
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 
 public class Graph {
@@ -104,7 +107,13 @@ public class Graph {
                             newIncidenceMatrix[i][j]= adjacencyMatrix[i][j];
                         }
                         else if(j>number){
-                            newIncidenceMatrix[i][j]= adjacencyMatrix[i][j+1];
+                            if(j+1!=dimension){
+                                newIncidenceMatrix[i][j]= adjacencyMatrix[i][j+1];
+                            }
+                            else{
+                                newIncidenceMatrix[i][j]=-1;
+                            }
+
                         }
 
                     }
@@ -112,10 +121,20 @@ public class Graph {
                 else if(i>number){
                     for(int j=0;j<dimension;j++){
                         if(j<number){
-                            newIncidenceMatrix[i][j]= adjacencyMatrix[i+1][j];
+                            if(i+1!=dimension){
+                                newIncidenceMatrix[i][j]= adjacencyMatrix[i+1][j];
+                            }
+                            else{
+                                newIncidenceMatrix[i][j]=-1;
+                            }
                         }
                         else if(j>number){
-                            newIncidenceMatrix[i][j]= adjacencyMatrix[i+1][j+1];
+                            if(i+1!=dimension && j+1!=dimension){
+                                newIncidenceMatrix[i][j]= adjacencyMatrix[i+1][j+1];
+                            }
+                            else{
+                                newIncidenceMatrix[i][j]=-1;
+                            }
                         }
                     }
                 }
@@ -135,12 +154,30 @@ public class Graph {
             return 1;
         }
     }
-    public ArrayList<Edge> kruskal(){
+    public void uniteOfKruskalAndPrim(){
+        PrintGraph pg = new PrintGraph(410,410);
+        for(Vertex vr:vertexList){
+            pg.addVertex(vr);
+        }
+        ArrayList<Edge> prim = new ArrayList<>(prim(null,false));
+        ArrayList<Edge> kruskal = new ArrayList<>(kruskal(null,false));
+        for (Edge aPrim : prim) {
+            pg.addLine(aPrim);
+        }
+        for (Edge aKruskal : kruskal) {
+            pg.addLine(aKruskal);
+        }
+        render(pg);
+    }
+    public ArrayList<Edge> kruskal(@Nullable Color color,boolean isPrint){
         if(getDimension()<=1){
             render();
             return createEdgeList();
         }
         PrintGraph pg = new PrintGraph(410,410);
+        if(color!=null){
+            pg.setColor(color);
+        }
         for(Vertex vr:vertexList){
             pg.addVertex(vr);
         }
@@ -165,6 +202,7 @@ public class Graph {
             }
             else{
                 pg.addLine(vertexList.get(tek.first).x,vertexList.get(tek.first).y,vertexList.get(tek.second).x,vertexList.get(tek.second).y,tek.weight);
+                render(pg);
                 ostovTree.add(tek);
                 int findAndReplaceElem = vertexes[tek.second];
                 for(int j=0;j<vertexes.length;j++){
@@ -174,10 +212,12 @@ public class Graph {
                 }
             }
         }
-        render(pg);
+        if(isPrint){
+            render(pg);
+        }
         return ostovTree;
     }
-    public ArrayList<Edge> prim(){
+    public ArrayList<Edge> prim(@Nullable Color color,boolean isPrint){
         if(getDimension()<=1){
             render();
             return createEdgeList();
@@ -187,6 +227,9 @@ public class Graph {
             notAddedVertexes.add(i);
         }
         PrintGraph pg = new PrintGraph(410,410);
+        if(color!=null){
+            pg.setColor(color);
+        }
         for(Vertex vr:vertexList){
             pg.addVertex(vr);
         }
@@ -204,6 +247,7 @@ public class Graph {
                 int indexOfSecondVertex = notAddedVertexes.indexOf(edgeList.get(i).second);
                 if(indexOfFirstVertex==-1 &&indexOfSecondVertex!=-1){
                     pg.addLine(edgeList.get(i));
+                    render(pg);
                     ostovTree.add(edgeList.get(i));
                     notAddedVertexes.remove((Integer)edgeList.get(i).second);
                     edgeList.remove(i);
@@ -217,7 +261,9 @@ public class Graph {
                 }
             }
         }
-        render(pg);
+        if(isPrint){
+            render(pg);
+        }
         return ostovTree;
     }
     private int getDeg(int number){
